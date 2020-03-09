@@ -41,7 +41,7 @@ class Perceptron {
                 }
             }while($erro != 0);
             // print_r($this->pesos);
-            print $this->resultado($entradas[$i]);
+            // print $this->resultado($entradas[$i]);
         }
     }
 
