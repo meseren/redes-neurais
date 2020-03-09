@@ -44,7 +44,6 @@ class Perceptron {
             print $this->resultado($entradas[$i]);
         }
     }
-
 }
 
 ?>
