@@ -32,17 +32,20 @@ class Perceptron {
     }
 
     public function treinar(array $entradas, array $resultadoEsperado) {
-        $erro = 0;
-        for($i=0;$i<count($entradas);$i++){
-            do {
-                for($j=0;$j<count($this->pesos);$j++) {
-                    $erro = $resultadoEsperado[$i] - $this->resultado($entradas[$i]);
-                    $this->pesos[$j] = $this->atualizaPeso($this->pesos[$j], $erro, 1);
-                }
-            }while($erro != 0);
-            // print_r($this->pesos);
-            print $this->resultado($entradas[$i]);
-        }
+        $terro = 0;
+        do {
+            $terro=0;
+            for($i=0;$i<count($entradas);$i++){
+                $erro = $resultadoEsperado[$i] - $this->resultado($entradas[$i]);
+                if($erro!=0)
+                    $terro=1;
+                    for($j=0;$j<count($this->pesos);$j++) {
+                        $this->pesos[$j] = $this->atualizaPeso($this->pesos[$j], $erro, $entradas[$i][$j]);
+                    }
+                // print_r($this->pesos);
+                // print $this->resultado($entradas[$i]);
+            }
+        }while($terro != 0);
     }
 }
 

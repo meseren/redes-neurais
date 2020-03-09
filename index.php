@@ -7,7 +7,11 @@
         $pesos[$i] = (rand(0, 50))/10;
     }
 
-    $perceptron = new Perceptron(0.2, $pesos);
+    $perceptron_1 = new Perceptron(0.8, $pesos);
+    $perceptron_2 = new Perceptron(0.8, $pesos);
+    $perceptron_3 = new Perceptron(0.8, $pesos);
+    $perceptron_4 = new Perceptron(0.8, $pesos);
+    $perceptron_5 = new Perceptron(0.8, $pesos);
 
     $x = [
           ['1','1', '1', '1', '1', '1',
@@ -193,21 +197,22 @@
           ]
      ];
      
-    $resultadoEsperado = ['000000','100000','010000','110000','001000','101000','011000','111000','000100','100100','010100','110100','001100','101100','011100','111110','000010','100010','010010','110010','001010','101010','011010','111010'];
+     $resultadoEsperadoPerceptron_1 = ['0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','0','1','1','1','1','1','1','1','1','1','1'];
+     $resultadoEsperadoPerceptron_2 = ['0','0','0','0','0','0','0','0','1','1','1','1','1','1','1','1','0','0','0','0','0','0','0','0','1','1'];
+     $resultadoEsperadoPerceptron_3 = ['0','0','0','0','1','1','1','1','0','0','0','0','1','1','1','1','0','0','0','0','1','1','1','1','0','0'];
+     $resultadoEsperadoPerceptron_4 = ['0','0','1','1','0','0','1','1','0','0','1','1','0','0','1','1','0','0','1','1','0','0','1','1','0','0'];
+     $resultadoEsperadoPerceptron_5 = ['0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1','0','1'];
 
-    $perceptron->treinar($x, $resultadoEsperado);
+    $perceptron_1->treinar($x, $resultadoEsperadoPerceptron_1);
+    $perceptron_2->treinar($x, $resultadoEsperadoPerceptron_2);
+    $perceptron_3->treinar($x, $resultadoEsperadoPerceptron_3);
+    $perceptron_4->treinar($x, $resultadoEsperadoPerceptron_4);
+    $perceptron_5->treinar($x, $resultadoEsperadoPerceptron_5);
 
-    print $perceptron->resultado(['1','0','0','0','0','1',
-                                      '1','0','0','0','1',
-                                      '1','1','1','1','1',
-                                      '1','0','0','0','1',
-                                      '1','0','0','0','1']);
-
-    print $perceptron->resultado(['1','0','0','1','1','1',
-                                      '1','0','0','0','1',
-                                      '1','1','1','1','1',
-                                      '1','0','0','0','1',
-                                      '1','0','0','0','1']);
-
+    print $perceptron_1->resultado($x[2]);
+    print $perceptron_2->resultado($x[2]);
+    print $perceptron_3->resultado($x[2]);
+    print $perceptron_4->resultado($x[2]);
+    print $perceptron_5->resultado($x[2]);
 
 ?>
