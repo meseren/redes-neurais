@@ -2,7 +2,86 @@
 
     include 'Perceptron.php';
 
+     /*************************************************
+     * #4 - Testar o Perceptron com uma porta AND e OR*
+     **************************************************/
+     $perceptron = new Perceptron(0.2, [-0.6, 0.7, 0.2]);
+
+     //porta AND => saída: 0001
+     $x = [[1,0,0], [1,0,1], [1,1,0], [1,1,1]];
+     $resultadoEsperado = [0,0,0,1];
+     $perceptron->treinar($x, $resultadoEsperado);
+
+     print 'Porta AND: ';
+     print $perceptron->resultado($x[0]);
+     print $perceptron->resultado($x[1]);
+     print $perceptron->resultado($x[2]);
+     print $perceptron->resultado($x[3]);
+     print '<br>';
+
+     //porta OR => saída: 0111
+     $x = [[1,0,0], [0,0,1], [1,1,0], [1,1,1]];
+     $resultadoEsperado = [0,1,1,1];
+     $perceptron->treinar($x, $resultadoEsperado);
+
+     print 'Porta OR: ';
+     print $perceptron->resultado($x[0]);
+     print $perceptron->resultado($x[1]);
+     print $perceptron->resultado($x[2]);
+     print $perceptron->resultado($x[3]);
+     print '<br>';
+ 
+    /**********************************************
+     * #5 - Implementar o reconhecimento de A e T *
+     **********************************************/
     $pesos = array();
+    
+    for($i=0;$i<25;$i++){
+        $pesos[$i] = (rand(0, 50))/10;
+    }
+
+    $perceptron = new Perceptron(0.2, $pesos);
+
+     $x = [['1','1','1','1','1','1',
+                '1','0','0','0','1',
+                '1','1','1','1','1',
+                '1','0','0','0','1',
+                '1','0','0','0','1'] /*A*/, 
+          ['1','1','1','1','1','1',
+               '0','0','1','0','0',
+               '0','0','1','0','0',
+               '0','0','1','0','0',
+               '0','0','1','0','0'] /*T/*/];
+
+     $resultadoEsperado = [1, 0];
+
+     $perceptron->treinar($x, $resultadoEsperado);
+
+     print 'Letra A: '.$perceptron->resultado($x[0]);
+
+     print '<br> Variação de algumas posições da letra A:';
+
+     print $perceptron->resultado(['1','0','1','0','0','1',
+                                       '1','0','0','0','1',
+                                       '1','1','1','1','1',
+                                       '1','0','0','0','1',
+                                      '1','0','0','0','0']);   //saída: 1    
+
+     print '<br> Letra T: '.$perceptron->resultado($x[1]);
+
+     print '<br> Variação de algumas posições da letra T:';
+
+     print $perceptron->resultado(['1','1','0','1','0','1',
+                                        '0','0','1','0','0',
+                                        '0','0','1','0','0',
+                                        '0','0','1','0','0',
+                                        '0','0','0','0','0']);
+
+    /**********************************************
+     * #6 - Implementar o reconhecimento de A a Z *
+     **********************************************/
+    $pesos = array();
+
     for($i=0;$i<25;$i++){
         $pesos[$i] = (rand(0, 50))/10;
     }
@@ -209,10 +288,25 @@
     $perceptron_4->treinar($x, $resultadoEsperadoPerceptron_4);
     $perceptron_5->treinar($x, $resultadoEsperadoPerceptron_5);
 
+    print '<br> Letra A:';
+    print $perceptron_1->resultado($x[0]);
+    print $perceptron_2->resultado($x[0]);
+    print $perceptron_3->resultado($x[0]);
+    print $perceptron_4->resultado($x[0]);
+    print $perceptron_5->resultado($x[0]);
+
+    print '<br> Letra B:';
+    print $perceptron_1->resultado($x[1]);
+    print $perceptron_2->resultado($x[1]);
+    print $perceptron_3->resultado($x[1]);
+    print $perceptron_4->resultado($x[1]);
+    print $perceptron_5->resultado($x[1]);
+
+    print '<br> Letra C:';
     print $perceptron_1->resultado($x[2]);
     print $perceptron_2->resultado($x[2]);
     print $perceptron_3->resultado($x[2]);
     print $perceptron_4->resultado($x[2]);
     print $perceptron_5->resultado($x[2]);
-
+    print '<br> [...] <br>';
 ?>

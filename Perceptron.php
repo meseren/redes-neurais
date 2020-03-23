@@ -28,7 +28,7 @@ class Perceptron {
     }
 
     public function atualizaPeso($w, $erro, $entrada){
-         return $w + ($this->fatorAprendizado * $erro * $entrada);
+        return $w + ($this->fatorAprendizado * $erro * $entrada);
     }
 
     public function treinar(array $entradas, array $resultadoEsperado) {
