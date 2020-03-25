@@ -309,4 +309,61 @@
     print $perceptron_4->resultado($x[2]);
     print $perceptron_5->resultado($x[2]);
     print '<br> [...] <br>';
+     
+    /************
+     * #7 - Xor *
+     ************/
+     $perceptron_1 = new Perceptron(0.2, [-0.6, 0.7, 0.2]);
+
+     $x = [[1,0,0], [1,0,1], [1,1,0], [1,1,1]];
+     $resultadoEsperado = [0,1,1,1];
+     $perceptron_1->treinar($x, $resultadoEsperado);
+
+     print 'Perceptron 1: ';
+     print $perceptron_1->resultado($x[0]);
+     print $perceptron_1->resultado($x[1]);
+     print $perceptron_1->resultado($x[2]);
+     print $perceptron_1->resultado($x[3]);
+     print '<br>';
+
+     $perceptron_2 = new Perceptron(0.2, [-0.6, 0.7, 0.2]);
+
+     $x = [[1,0,0], [1,0,1], [1,1,0], [1,1,1]];
+     $resultadoEsperado = [1,1,1,0];
+     $perceptron_2->treinar($x, $resultadoEsperado);
+
+     print 'Perceptron 2: ';
+     print $perceptron_2->resultado($x[0]);
+     print $perceptron_2->resultado($x[1]);
+     print $perceptron_2->resultado($x[2]);
+     print $perceptron_2->resultado($x[3]);
+     print '<br>';
+
+     $perceptron_3 = new Perceptron(0.2, [-0.6, 0.7, 0.2]);
+
+     $x = [[1,0,0], [1,0,1], [1,1,0], [1,1,1]];
+
+     $resultadoEsperado = [0,0,0,1];
+     $perceptron_3->treinar($x, $resultadoEsperado);
+
+     print 'Perceptron 3: ';
+     print $perceptron_3->resultado($x[0]);
+     print $perceptron_3->resultado($x[1]);
+     print $perceptron_3->resultado($x[2]);
+     print $perceptron_3->resultado($x[3]);
+     print '<br>';
+
+     //saídas do perceptron 1 e 2 entrando no perceptron 3
+     $x = [[1,$perceptron_1->resultado($x[0]),$perceptron_2->resultado($x[0])], 
+          [1,$perceptron_1->resultado($x[1]),$perceptron_2->resultado($x[1])], 
+          [1,$perceptron_1->resultado($x[2]),$perceptron_2->resultado($x[2])], 
+          [1,$perceptron_1->resultado($x[3]),$perceptron_2->resultado($x[3])]];
+
+     print 'XOR: ';
+     print $perceptron_3->resultado($x[0]);
+     print $perceptron_3->resultado($x[1]);
+     print $perceptron_3->resultado($x[2]);
+     print $perceptron_3->resultado($x[3]);
+     print '<br>';
+
 ?>
