@@ -1,28 +1,26 @@
 <?php 
 
     include 'Neuronio.php';
+    include 'MSE.php';
 
-    $e = 2.7183;
-
+    /**Inputs */
+    
+    /* Exemplo 1
     $entradas = [[1,0,0], [1,0,1], [1,1,0], [1,1,1]];
     $resultadoEsperado = [0,1,1,0];
+    $pesos_h = [[-0.16,-0.87,0.15],[0.90,0.14,0.05]];
+    $pesos_o = [0.20,-0.25,0.15];*/
 
-    $O1 = array();
-    $erroQuadratico = 0;
+    //Exemplo 2
+    $entradas = [[1,0,0], [1,0,1], [1,1,0], [1,1,1]];
+    $resultadoEsperado = [0,1,1,0];
+    $pesos_h = [[1.81,-5.61,-5.90],[5.27,-3.70,-3.72]];
+    $pesos_o = [-2.48,-7.01,5.92];
 
-    foreach($entradas as $key => $x){
-        $neuronio = new Neuronio($x, [-0.16,-0.87,0.15]);
-        $H1 =  $neuronio->getSaida();
+    $MSE = new MSE($entradas, $resultadoEsperado, $pesos_h, $pesos_o);
 
-        $neuronio = new Neuronio($x, [0.90,0.14,0.05]);
-        $H2 =  $neuronio->getSaida();
+    print $MSE->getMse();
+
+    print_r($MSE->getResultados());
     
-        $u = 0.20 + $H1 * -0.25 + $H2 * 0.15;
-    
-        $O1[] = 1/(1 +  pow($e, -$u));
-        $erroQuadratico += pow(($resultadoEsperado[$key] - $O1[$key]), 2);
-    }
-
-    print (($erroQuadratico/4)*100).'%';
-   
 ?>

@@ -1,5 +1,9 @@
 <?php
 
+/*********************************
+ * #2 - Implementar o Perceptron *
+ *********************************/
+
 class Perceptron {
     
     private $pesos;
@@ -31,6 +35,9 @@ class Perceptron {
         return $w + ($this->fatorAprendizado * $erro * $entrada);
     }
 
+    /***********************************************
+     * #3 - Implementar o algoritmo de treinamento *
+     ***********************************************/
     public function treinar(array $entradas, array $resultadoEsperado) {
         $terro = 0;
         do {
