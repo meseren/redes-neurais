@@ -52,7 +52,6 @@ class RedeNeural{
         $this->pesos_o[0] = $this->pesos_o[0] + ($this->taxaAprendizado * (-$this->gradienteCamadaOculta['X0'][0]));
         $this->pesos_o[1] = $this->pesos_o[1] + ($this->taxaAprendizado * (-$this->gradienteCamadaOculta['H1'][0]));
         $this->pesos_o[2] = $this->pesos_o[2] + ($this->taxaAprendizado * (-$this->gradienteCamadaOculta['H2'][0]));
-
         // while($mse > 0.01){
             
         // }
