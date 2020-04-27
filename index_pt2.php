@@ -8,8 +8,9 @@
     /* Exemplo 1 */
     $entradas = [[1,0,0], [1,0,1], [1,1,0], [1,1,1]];
     $resultadoEsperado = [0,1,1,0];
+    $resultadoEsperado_2 = [1,0,0,1];
     $pesos_h = [[-0.46,-0.7,0.22],[0.10,0.94,0.46]];
-    $pesos_o = [0.78,-0.22,0.58];
+    $pesos_o = [[0.78,-0.22,0.58], [0.78,-0.22,0.58]];
     
     /* Exemplo 2
     $entradas = [[1,0,0], [1,0,1], [1,1,0], [1,1,1]];
@@ -23,7 +24,7 @@
     // $pesos_h = [[1.81,-5.61,-5.90],[5.27,-3.70,-3.72]];
     // $pesos_o = [-2.48,-7.01,5.92];
 
-    $MSE = new RedeNeural($entradas, $resultadoEsperado, $pesos_h, $pesos_o);
+    $MSE = new RedeNeural($entradas, $resultadoEsperado, $resultadoEsperado_2, $pesos_h, $pesos_o);
 
     $resultMse = $MSE->atualizaPesos();
 
