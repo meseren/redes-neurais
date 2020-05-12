@@ -8,13 +8,13 @@ class RedeNeural{
     private $H1;
     private $H2;
     private $taxaAprendizado;
-    private $delta_h1 = [0,0,0];
+    private $delta_h1;
+    private $delta_h2;
     private $delta_h1_anterior;
-    private $delta_h2 = [0,0,0];
     private $delta_h2_anterior;
-    private $delta_o1 = [0,0,0];
+    private $delta_o1;
     private $delta_o1_anterior;
-    private $delta_o2 = [0,0,0];
+    private $delta_o2;
     private $delta_o2_anterior;
     private $gradienteEntradas;
     private $gradienteCamadaOculta;
@@ -78,25 +78,36 @@ class RedeNeural{
     }
 
     public function calculaDelta(){
+     
         foreach($this->entradas as $key => $x){
-
             $derivadaFdeU = ($this->resultados[$key] * (1- $this->resultados[$key]));
             $this->delta_o1[] =  $derivadaFdeU * $this->erros[$key];
 
             $derivadaFdeU = ($this->resultados_2[$key] * (1- $this->resultados_2[$key]));
             $this->delta_o2[] =  $derivadaFdeU * $this->erros_2[$key];
-
+            
             $derivadaFdeU = ($this->H1[$key] * (1- $this->H1[$key]));
-            $this->delta_h1[] = $derivadaFdeU * $this->pesos_o[1] * $this->delta_o1[$key]; 
+            $this->delta_h1[] = $derivadaFdeU * (($this->pesos_o[0][1] * $this->delta_o1[$key]) + ($this->pesos_o[0][2] * $this->delta_o2[$key]));
 
             $derivadaFdeU = ($this->H2[$key] * (1- $this->H2[$key]));
-            $this->delta_h2[] = $derivadaFdeU * $this->pesos_o[2] * $this->delta_o1[$key]; 
+            $this->delta_h2[] = $derivadaFdeU * (($this->pesos_o[1][1] * $this->delta_o1[$key]) + ($this->pesos_o[1][2] * $this->delta_o2[$key]));
         }
 
-        $this->delta_h1_anterior = $this->delta_h1;
-        $this->delta_h2_anterior = $this->delta_h2;
-        $this->delta_o1_anterior = $this->delta_o1;
-        $this->delta_o2_anterior = $this->delta_o2;
+        print '<pre>';
+        print 'delta O1';
+        print_r($this->delta_o1);
+        print '<br>delta O2';
+        print_r($this->delta_o2);
+        print '<br>delta h1';
+        print_r($this->delta_h1);
+        print '<br>delta h2';
+        print_r($this->delta_h2);
+        exit;
+
+        // $this->delta_h1_anterior = $this->delta_h1;
+        // $this->delta_h2_anterior = $this->delta_h2;
+        // $this->delta_o1_anterior = $this->delta_o1;
+        // $this->delta_o2_anterior = $this->delta_o2;
     }
 
     public function calculaGradiente(){
@@ -112,9 +123,9 @@ class RedeNeural{
             $this->gradienteCamadaOculta['H1'][0][] = $this->pesos_o[0][1] * $this->delta_o1[$i];    
             $this->gradienteCamadaOculta['H2'][0][] = $this->pesos_o[0][2] * $this->delta_o1[$i];    
 
-            $this->gradienteCamadaOculta['X0'][1][] = $this->pesos_o[1][0] * $this->delta_o1[$i];    
-            $this->gradienteCamadaOculta['H1'][1][] = $this->pesos_o[1][1] * $this->delta_o1[$i];    
-            $this->gradienteCamadaOculta['H2'][1][] = $this->pesos_o[1][2] * $this->delta_o1[$i];  
+            $this->gradienteCamadaOculta['X0'][1][] = $this->pesos_o[1][0] * $this->delta_o2[$i];    
+            $this->gradienteCamadaOculta['H1'][1][] = $this->pesos_o[1][1] * $this->delta_o2[$i];    
+            $this->gradienteCamadaOculta['H2'][1][] = $this->pesos_o[1][2] * $this->delta_o2[$i];  
         }
     }
 
