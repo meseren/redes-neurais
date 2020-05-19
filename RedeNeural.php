@@ -93,17 +93,6 @@ class RedeNeural{
             $this->delta_h2[] = $derivadaFdeU * (($this->pesos_o[1][1] * $this->delta_o1[$key]) + ($this->pesos_o[1][2] * $this->delta_o2[$key]));
         }
 
-        print '<pre>';
-        print 'delta O1';
-        print_r($this->delta_o1);
-        print '<br>delta O2';
-        print_r($this->delta_o2);
-        print '<br>delta h1';
-        print_r($this->delta_h1);
-        print '<br>delta h2';
-        print_r($this->delta_h2);
-        exit;
-
         // $this->delta_h1_anterior = $this->delta_h1;
         // $this->delta_h2_anterior = $this->delta_h2;
         // $this->delta_o1_anterior = $this->delta_o1;
@@ -118,14 +107,14 @@ class RedeNeural{
                 $this->gradienteEntradas['H1'][$i][$j] = $x * $this->delta_h1[$i];
                 $this->gradienteEntradas['H2'][$i][$j] = $x * $this->delta_h2[$i];
             }
-            
-            $this->gradienteCamadaOculta['X0'][0][] = $this->pesos_o[0][0] * $this->delta_o1[$i];    
-            $this->gradienteCamadaOculta['H1'][0][] = $this->pesos_o[0][1] * $this->delta_o1[$i];    
-            $this->gradienteCamadaOculta['H2'][0][] = $this->pesos_o[0][2] * $this->delta_o1[$i];    
 
-            $this->gradienteCamadaOculta['X0'][1][] = $this->pesos_o[1][0] * $this->delta_o2[$i];    
-            $this->gradienteCamadaOculta['H1'][1][] = $this->pesos_o[1][1] * $this->delta_o2[$i];    
-            $this->gradienteCamadaOculta['H2'][1][] = $this->pesos_o[1][2] * $this->delta_o2[$i];  
+            $this->gradienteCamadaOculta['01'][$i][] = 1 * $this->delta_o1[$i];    
+            $this->gradienteCamadaOculta['01'][$i][] = $this->H1[$i] * $this->delta_o1[$i];    
+            $this->gradienteCamadaOculta['01'][$i][] = $this->H2[$i] * $this->delta_o1[$i];    
+           
+            $this->gradienteCamadaOculta['02'][$i][] = 1 * $this->delta_o2[$i];    
+            $this->gradienteCamadaOculta['02'][$i][] = $this->H1[$i] * $this->delta_o2[$i];    
+            $this->gradienteCamadaOculta['02'][$i][] = $this->H2[$i] * $this->delta_o2[$i];  
         }
     }
 
