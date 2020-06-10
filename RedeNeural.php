@@ -1,13 +1,14 @@
 <?php 
 class RedeNeural{  
 
+    private $alfa = 0.1;
     private $pesos_h;
     private $pesos_o;
     private $erros;
     private $erros_2;
     private $H1;
     private $H2;
-    private $taxaAprendizado;
+    private $taxaAprendizado = 0.2;
     private $delta_h1;
     private $delta_h2;
     private $delta_h1_anterior;
@@ -46,8 +47,7 @@ class RedeNeural{
             $this->H2[] =  $neuronio->getSaida();
         
             $u_1 = $this->pesos_o[0][0] + $this->H1[$key] * $this->pesos_o[0][1] + $this->H2[$key] * $this->pesos_o[0][2];
-            $u_2 = $this->pesos_o[0][0] + $this->H1[$key] * $this->pesos_o[1][1] + $this->H2[$key] * $this->pesos_o[1][2];
-            
+            $u_2 = $this->pesos_o[0][0] + $this->H1[$key] * $this->pesos_o[1][1] + $this->H2[$key] * $this->pesos_o[1][2];        
 
             $this->resultados[] = 1/(1 +  pow($this->e, -$u_1));
             $this->erros[] = $this->resultadoEsperado[$key] - $this->resultados[$key];
@@ -62,20 +62,29 @@ class RedeNeural{
     }
 
     public function atualizaPesos(){
-        $mse = $this->getMse();
+        $i=0;
 
-        $this->calculaGradiente();
-        
-        $this->pesos_o[0][0] = $this->pesos_o[0][0] + ($this->taxaAprendizado * (-$this->gradienteCamadaOculta['X0'][0][0]));
-        $this->pesos_o[0][1] = $this->pesos_o[0][1] + ($this->taxaAprendizado * (-$this->gradienteCamadaOculta['H1'][0][0]));
-        $this->pesos_o[0][2] = $this->pesos_o[0][2] + ($this->taxaAprendizado * (-$this->gradienteCamadaOculta['H2'][0][0]));
+        $dp[0] = [[0, 0, 0],[0, 0, 0],[0, 0, 0],[0, 0, 0]];
+        $dp[1] = [[0, 0, 0],[0, 0, 0],[0, 0, 0],[0, 0, 0]];
+        $dp[2] = [[0, 0, 0],[0, 0, 0],[0, 0, 0],[0, 0, 0]];
+        $dp[3] = [[0, 0, 0],[0, 0, 0],[0, 0, 0],[0, 0, 0]];
 
-        $this->delta_h1 = $this->delta_h2 = $this->delta_o1 = array();
-
-        // while($mse > 0.01){
-            
-        // }
+        while(($this->getMse() > 0.01) && ($i < 10000)){
+            foreach($this->entradas as $key => $value){
+                $this->calculaDelta();
+                $this->calculaGradiente();
+            }
+            // cada padrão calcula saida
+            // delta da camada de saida 
+            // oculta 
+            // gradiente 
+            // atualiza
+            // 4x
+            // mse dnv
+            $i++;
+        }
     }
+    
 
     public function calculaDelta(){
      
@@ -86,21 +95,16 @@ class RedeNeural{
             $derivadaFdeU = ($this->resultados_2[$key] * (1- $this->resultados_2[$key]));
             $this->delta_o2[] =  $derivadaFdeU * $this->erros_2[$key];
             
-            $derivadaFdeU = ($this->H1[$key] * (1- $this->H1[$key]));
-            $this->delta_h1[] = $derivadaFdeU * (($this->pesos_o[0][1] * $this->delta_o1[$key]) + ($this->pesos_o[0][2] * $this->delta_o2[$key]));
-
-            $derivadaFdeU = ($this->H2[$key] * (1- $this->H2[$key]));
-            $this->delta_h2[] = $derivadaFdeU * (($this->pesos_o[1][1] * $this->delta_o1[$key]) + ($this->pesos_o[1][2] * $this->delta_o2[$key]));
+            $derivadaFdeU = ($this->H1[$key] * (1 - $this->H1[$key]));
+            $this->delta_h1[] = $derivadaFdeU * (($this->pesos_o[0][1] * $this->delta_o1[$key]) + ($this->pesos_o[1][1] * $this->delta_o2[$key]));
+        
+            $derivadaFdeU = ($this->H2[$key] * (1 - $this->H2[$key]));
+            $this->delta_h2[] = $derivadaFdeU * (($this->pesos_o[0][2] * $this->delta_o1[$key]) + ($this->pesos_o[1][2] * $this->delta_o2[$key]));
+           
         }
-
-        // $this->delta_h1_anterior = $this->delta_h1;
-        // $this->delta_h2_anterior = $this->delta_h2;
-        // $this->delta_o1_anterior = $this->delta_o1;
-        // $this->delta_o2_anterior = $this->delta_o2;
     }
 
     public function calculaGradiente(){
-        $this->calculaDelta();
 
         foreach($this->entradas as $i => $value){
             foreach($value as $j => $x){
@@ -116,6 +120,14 @@ class RedeNeural{
             $this->gradienteCamadaOculta['02'][$i][] = $this->H1[$i] * $this->delta_o2[$i];    
             $this->gradienteCamadaOculta['02'][$i][] = $this->H2[$i] * $this->delta_o2[$i];  
         }
+    }
+
+    public function delta(){
+        
+    }
+
+    public function getDeslocamento(){
+
     }
 
     public function getResultados(){
